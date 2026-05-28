@@ -1,0 +1,126 @@
+﻿let currentView="home",currentCh=-1,fontSize=parseInt(localStorage.getItem("novel-fs"))||17;
+var totalCh=typeof CHAPTERS!=="undefined"?CHAPTERS.length:0;
+var lastRead=parseInt(localStorage.getItem("novel-last"))||0;
+
+function tt(){var t=document.documentElement.getAttribute("data-theme"),n=t==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",n);localStorage.setItem("novel-theme",n);document.getElementById("tbtn").textContent=n==="dark"?"🌙":"☀️"}
+(function(){var s=localStorage.getItem("novel-theme");if(s){document.documentElement.setAttribute("data-theme",s);document.getElementById("tbtn").textContent=s==="dark"?"🌙":"☀️"}})();
+
+function go(view,idx){
+  if(view==="read"){
+    if(idx!==undefined){currentCh=idx}
+    else if(currentCh<0){currentCh=0}
+    lastRead=currentCh;
+    localStorage.setItem("novel-last",currentCh);
+    renderRead();
+  }
+  document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active")});
+  var map={home:"vh",list:"vl",read:"vr",about:"va"};
+  var el=document.getElementById(map[view]);
+  if(el)el.classList.add("active");
+  currentView=view;
+  window.scrollTo({top:0});
+  document.querySelectorAll(".nk a[data-n]").forEach(function(a){a.classList.toggle("active",a.dataset.n===view)});
+  updateToolbar();
+  if(view==="read")history.pushState(null,"","#ch"+(currentCh+1));
+  else if(view==="home")history.pushState(null,"","#");
+  else history.pushState(null,"","#"+view);
+  return false;
+}
+
+function navCh(dir){
+  if(totalCh<=0)return;
+  if(currentCh<0)currentCh=lastRead;
+  var n=currentCh+dir;
+  if(n<0)n=0;
+  if(n>=totalCh)n=totalCh-1;
+  go("read",n);
+}
+
+function updateToolbar(){
+  var tb=document.getElementById("tbTitle");
+  var prev=document.getElementById("tbPrev");
+  var next=document.getElementById("tbNext");
+  var gc=document.getElementById("goCh");
+  if(currentView==="read"&&totalCh>0){
+    tb.textContent=CHAPTERS[currentCh].num+". "+CHAPTERS[currentCh].title;
+    prev.disabled=currentCh<=0;
+    next.disabled=currentCh>=totalCh-1;
+    gc.style.display="none";
+  }else{
+    tb.textContent="";
+    prev.disabled=totalCh<=0;
+    next.disabled=totalCh<=0;
+    gc.style.display="inline-block";
+    if(currentView==="read")gc.textContent="📖 开始阅读";
+    else gc.textContent="📖 从这里读";
+  }
+}
+
+function startRead(){
+  if(currentCh<0)currentCh=lastRead;
+  if(currentCh<0)currentCh=0;
+  go("read",currentCh);
+}
+
+function renderHome(){
+  var c=document.getElementById("homeChList");
+  if(!c||typeof CHAPTERS==="undefined")return;
+  var html='<div class="ch-grid">';
+  CHAPTERS.forEach(function(ch,i){
+    html+='<div class="ch-card" onclick="go(\'read\','+i+')">';
+    html+='<div class="ch-card-num">第'+ch.num+'章</div>';
+    html+='<div class="ch-card-title">'+ch.title+'</div>';
+    html+='<div class="ch-card-go">阅读 →</div>';
+    html+='</div>';
+  });
+  html+='</div>';
+  c.innerHTML=html;
+}
+
+function renderList(){
+  var c=document.getElementById("chapterList");
+  if(!c||typeof CHAPTERS==="undefined")return;
+  c.innerHTML=CHAPTERS.map(function(ch,i){
+    return '<a class="ch-item" href="#ch'+ch.num+'" onclick="go(\'read\','+i+');return false;"><span><span class="ch-num">第'+ch.num+'章</span> '+ch.title+'</span><span style="font-size:12px;color:var(--tx3)">→</span></a>';
+  }).join("");
+}
+
+function renderRead(){
+  if(currentCh<0||currentCh>=totalCh)return;
+  var ch=CHAPTERS[currentCh];
+  if(!ch)return;
+  document.getElementById("readTitle").textContent="第"+ch.num+"章";
+  document.getElementById("readSubTitle").textContent=ch.title;
+  document.getElementById("readInfo").textContent="第"+ch.num+"章 · 共"+totalCh+"章 · "+(currentCh+1)+"/"+totalCh;
+  document.getElementById("readContent").innerHTML=ch.content;
+  document.getElementById("readContent").style.setProperty("--fsz",fontSize+"px");
+  document.getElementById("fsl").textContent=fontSize+"px";
+  localStorage.setItem("novel-last",currentCh);
+  lastRead=currentCh;
+  renderBottomNav();
+}
+
+function renderBottomNav(){
+  var bn=document.getElementById("bottomNav");
+  if(currentView!=="read"){bn.style.display="none";return;}
+  bn.style.display="flex";
+  var prevBtn=document.getElementById("bnPrev");
+  var nextBtn=document.getElementById("bnNext");
+  prevBtn.textContent="← 上一章";
+  nextBtn.textContent="下一章 →";
+  prevBtn.disabled=currentCh<=0;
+  nextBtn.disabled=currentCh>=totalCh-1;
+  if(currentCh<=0)prevBtn.style.visibility="hidden";
+  else prevBtn.style.visibility="visible";
+  if(currentCh>=totalCh-1)nextBtn.style.visibility="hidden";
+  else nextBtn.style.visibility="visible";
+}
+
+function cfs(d){fontSize=Math.max(14,Math.min(22,fontSize+d));document.getElementById("fsl").textContent=fontSize+"px";var rc=document.getElementById("readContent");if(rc)rc.style.setProperty("--fsz",fontSize+"px");localStorage.setItem("novel-fs",fontSize)}
+
+window.addEventListener("scroll",function(){var s=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById("pb").style.width=(h>0?(s/h*100):0)+"%";document.getElementById("btt").classList.toggle("show",s>400);document.getElementById("nb").classList.toggle("scrolled",s>50)});
+
+function handleHash(){var h=location.hash.slice(1);if(!h)go("home");else if(h==="list")go("list");else if(h==="about")go("about");else if(h.startsWith("ch")){var n=parseInt(h.slice(2))-1;if(n>=0&&n<totalCh)go("read",n);else go("home")}else go("home")}
+window.addEventListener("hashchange",handleHash);
+
+document.addEventListener("DOMContentLoaded",function(){renderHome();renderList();handleHash();updateToolbar()});
