@@ -37,6 +37,17 @@ function go(view,idx){
   currentView=view;
   window.scrollTo({top:0,behavior:"smooth"});
   document.querySelectorAll(".nk a[data-n]").forEach(function(a){a.classList.toggle("active",a.dataset.n===view)});
+  // Toolbar: only visible on read view
+  var toolbar=document.getElementById("gtb");
+  var backToTop=document.getElementById("btt");
+  if(view==="read"){
+    toolbar.classList.add("visible");
+    document.body.classList.add("reading-mode");
+  }else{
+    toolbar.classList.remove("visible");
+    document.body.classList.remove("reading-mode");
+    backToTop.classList.remove("show");
+  }
   updateToolbar();
   if(view==="read")history.pushState(null,"","#ch"+(currentCh+1));
   else if(view==="home")history.pushState(null,"","#");
@@ -57,18 +68,14 @@ function updateToolbar(){
   var tb=document.getElementById("tbTitle");
   var prev=document.getElementById("tbPrev");
   var next=document.getElementById("tbNext");
-  var gc=document.getElementById("goCh");
   if(currentView==="read"&&totalCh>0){
     tb.textContent="第"+CHAPTERS[currentCh].num+"章 · "+CHAPTERS[currentCh].title;
     prev.disabled=currentCh<=0;
     next.disabled=currentCh>=totalCh-1;
-    gc.style.display="none";
   }else{
     tb.textContent="";
-    prev.disabled=totalCh<=0;
-    next.disabled=totalCh<=0;
-    gc.style.display="inline-block";
-    gc.textContent=currentView==="read"?"📖 开始阅读":"📖 从这里读";
+    prev.disabled=true;
+    next.disabled=true;
   }
 }
 
@@ -137,7 +144,7 @@ function renderBottomNav(){
 
 function cfs(d){fontSize=Math.max(14,Math.min(22,fontSize+d));document.getElementById("fsl").textContent=fontSize+"px";var rc=document.getElementById("readContent");if(rc)rc.style.setProperty("--fsz",fontSize+"px");localStorage.setItem("novel-fs",fontSize)}
 
-window.addEventListener("scroll",function(){var s=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById("pb").style.width=(h>0?(s/h*100):0)+"%";document.getElementById("btt").classList.toggle("show",s>400);document.getElementById("nb").classList.toggle("scrolled",s>50)});
+window.addEventListener("scroll",function(){var s=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById("pb").style.width=(h>0?(s/h*100):0)+"%";if(currentView==="read"){document.getElementById("btt").classList.toggle("show",s>400)}document.getElementById("nb").classList.toggle("scrolled",s>50)});
 
 function handleHash(){var h=location.hash.slice(1);if(!h)go("home");else if(h==="list")go("list");else if(h==="about")go("about");else if(h.startsWith("ch")){var n=parseInt(h.slice(2))-1;if(n>=0&&n<totalCh)go("read",n);else go("home")}else go("home")}
 window.addEventListener("hashchange",handleHash);
