@@ -154,7 +154,5 @@ document.addEventListener("keydown",function(e){
   if(currentView!=="read")return;
   if(e.key==="ArrowLeft"){e.preventDefault();navCh(-1)}
   else if(e.key==="ArrowRight"){e.preventDefault();navCh(1)}
-  else if(e.key==="ArrowUp"){e.preventDefault();window.scrollTo({top:0,behavior:"smooth"})}
-  else if(e.key==="ArrowDown"){e.preventDefault();var rc=document.getElementById("readContent");if(rc)rc.scrollIntoView({behavior:"smooth",block:"end"})}
 });
 document.addEventListener("DOMContentLoaded",function(){renderHome();renderList();handleHash();updateToolbar()});
