@@ -107,3 +107,25 @@ footer{max-width:var(--pm);margin:0 auto;padding:32px 40px;border-top:1px solid 
   .read-bottom-nav{gap:8px}
   .read-bottom-nav button{padding:10px 20px;font-size:13px}
 }
+/* Music Player */
+.music-bar{position:fixed;bottom:0;left:0;right:0;z-index:1001;transition:all .4s cubic-bezier(.4,0,.2,1)}
+.music-toggle{display:flex;align-items:center;gap:8px;padding:10px 20px;background:var(--bg2);border-top:1px solid var(--bd);cursor:pointer;transition:all .3s;justify-content:center}
+.music-toggle:hover{background:var(--acg)}
+.music-icon{font-size:18px;color:var(--ac);animation:musicPulse 2s ease-in-out infinite}
+@keyframes musicPulse{0%,100%{opacity:1}50%{opacity:.5}}
+.music-label{font-size:13px;color:var(--tx2)}
+.music-panel{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1);background:var(--bg2);border-top:1px solid var(--bd)}
+.music-panel.open{max-height:200px}
+.music-now{text-align:center;padding:12px 20px 4px;font-family:var(--fs);font-size:13px;color:var(--tx2)}
+.music-controls{display:flex;justify-content:center;align-items:center;gap:16px;padding:4px 0}
+.music-controls button{width:36px;height:36px;border:1px solid var(--bd);border-radius:50%;background:var(--bg2);color:var(--tx2);font-size:14px;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center}
+.music-controls button:hover{border-color:var(--ac);color:var(--ac)}
+.music-controls button:nth-child(2){width:44px;height:44px;font-size:16px;background:var(--ac);color:#fff;border-color:var(--ac)}
+.music-controls button:nth-child(2):hover{opacity:.9}
+.music-progress{width:80%;max-width:400px;height:4px;background:var(--bd);border-radius:2px;margin:4px auto;cursor:pointer;position:relative}
+.music-bar-fill{height:100%;background:var(--ac);border-radius:2px;width:0;transition:width .1s linear}
+.music-time{text-align:center;font-size:11px;color:var(--tx3);padding-bottom:2px}
+.music-vol{display:flex;align-items:center;justify-content:center;gap:8px;padding-bottom:8px}
+.music-vol span{font-size:14px}
+.music-vol input[type=range]{width:100px;height:4px;-webkit-appearance:none;background:var(--bd);border-radius:2px;outline:none}
+.music-vol input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--ac);cursor:pointer}
