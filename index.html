@@ -6,7 +6,7 @@
 <title>攻略满级后我债还清了 — 原创小说</title>
 <meta name="description" content="一本关于灵魂负债人穿梭各个世界攻略女主的快穿小说">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -21,34 +21,33 @@
   </div>
 </nav>
 
-<!-- HOME -->
 <div class="view active" id="vh">
   <section class="hero">
+    <div class="hero-bg"></div>
     <h1>灵魂负债人<br><span>攻略满级后我债还清了</span></h1>
     <p>癌症死去的社畜林杰，被外星文明选中背负灵魂债务，穿梭各个世界攻略女主。他不是霸道总裁，而是一个擅长示弱、以退为进的"男绿茶"。</p>
     <div class="stats">
-      <div class="stat"><div class="stat-num">21</div><div class="stat-label">已完成章节</div></div>
-      <div class="stat"><div class="stat-num">1</div><div class="stat-label">已穿越世界</div></div>
-      <div class="stat"><div class="stat-num">85,000</div><div class="stat-label">剩余灵魂债务</div></div>
+      <div class="stat"><div class="stat-num" id="statCh">45</div><div class="stat-label">已完成章节</div></div>
+      <div class="stat"><div class="stat-num" id="statWorld">2</div><div class="stat-label">已穿越世界</div></div>
+      <div class="stat"><div class="stat-num">62,000</div><div class="stat-label">剩余灵魂债务</div></div>
     </div>
     <a href="#ch1" class="btn" onclick="go('read',0);return false">开始阅读 →</a>
   </section>
   <section class="section">
-    <div class="section-title">全部章节</div>
+    <div class="world-tabs" id="worldTabs"></div>
     <div id="homeChList"></div>
   </section>
   <footer>© 2026 攻略满级后我债还清了 · 快穿攻略 · 男绿茶 · 万人迷</footer>
 </div>
 
-<!-- LIST -->
 <div class="view" id="vl">
   <div class="list-page">
     <div class="section-title" style="font-size:26px;margin-bottom:24px">章节目录</div>
+    <div class="world-tabs" id="listWorldTabs"></div>
     <div id="chapterList"></div>
   </div>
 </div>
 
-<!-- READ -->
 <div class="view" id="vr">
   <div class="read-page">
     <div class="read-header">
@@ -66,24 +65,26 @@
   </div>
 </div>
 
-<!-- ABOUT -->
 <div class="view" id="va">
   <div class="about-page">
     <h1>关于本书</h1>
     <div class="about-content">
-      <p>这是一本快穿攻略小说，讲述癌症去世的社畜林杰被外星文明选中，背负十万灵魂债务，穿梭各个世界完成攻略任务的故事。</p>
+      <p>这是一本快穿攻略小说，讲述癌症去世的社畜林杰被外星文明选中，背负灵魂债务，穿梭各个世界完成攻略任务的故事。</p>
       <div class="about-quote">江湖最锋利的，从来不是剑。是母亲挡在孩子身前的那双手。</div>
-      <p>林杰不是霸道总裁，不是天才学霸，只是一个被命运推着走的普通人。但他有一样别人都没有的东西——一颗能看透人心的眼睛。</p>
+      <p>他不是霸道总裁，不是天才学霸，只是一个被命运推着走的普通人。但他有一样别人都没有的东西——一颗能看透人心的眼睛。</p>
       <p>他用温柔做武器，用示弱做盔甲，在一个又一个世界里，撬走别人的女友，治愈她们的创伤，然后在她们爱上他的那一刻，悄悄离开。</p>
-      <p>每个世界的女主，左眼下方都有一颗泪痣。</p>
+      <p>每个世界的女主，名字里都有一个读音为"cheng"的字。</p>
       <p>这不是巧合。</p>
       <p>但他还不知道。</p>
-      <p style="text-align:center;margin-top:40px;color:var(--ac);font-family:var(--fs)">— 世界一：抢！室友女友是顶级富二代 · 已完成 —</p>
+      <div class="about-worlds">
+        <div class="about-world"><span class="aw-num">世界一</span> 抢！室友女友是顶级富二代 <span class="aw-tag">已完成</span></div>
+        <div class="about-world"><span class="aw-num">世界二</span> 抢！名门正派的大师姐 <span class="aw-tag">已完成</span></div>
+        <div class="about-world"><span class="aw-num">世界三</span> ??? <span class="aw-tag">待续</span></div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- GLOBAL BOTTOM TOOLBAR -->
 <div class="toolbar" id="gtb">
   <button onclick="navCh(-1)" id="tbPrev">← 上一章</button>
   <button id="goCh" onclick="startRead()">📖 从这里读</button>
