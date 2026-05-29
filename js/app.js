@@ -149,4 +149,12 @@ window.addEventListener("scroll",function(){var s=document.documentElement.scrol
 function handleHash(){var h=location.hash.slice(1);if(!h)go("home");else if(h==="list")go("list");else if(h==="about")go("about");else if(h.startsWith("ch")){var n=parseInt(h.slice(2))-1;if(n>=0&&n<totalCh)go("read",n);else go("home")}else go("home")}
 window.addEventListener("hashchange",handleHash);
 
+
+document.addEventListener("keydown",function(e){
+  if(currentView!=="read")return;
+  if(e.key==="ArrowLeft"){e.preventDefault();navCh(-1)}
+  else if(e.key==="ArrowRight"){e.preventDefault();navCh(1)}
+  else if(e.key==="ArrowUp"){e.preventDefault();window.scrollTo({top:0,behavior:"smooth"})}
+  else if(e.key==="ArrowDown"){e.preventDefault();var rc=document.getElementById("readContent");if(rc)rc.scrollIntoView({behavior:"smooth",block:"end"})}
+});
 document.addEventListener("DOMContentLoaded",function(){renderHome();renderList();handleHash();updateToolbar()});
