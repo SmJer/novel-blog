@@ -186,7 +186,7 @@ audio.volume=0.3;
 function loadSong(i){
   currentSongIdx=(i+SONGS.length)%SONGS.length;
   audio.src="music/"+SONGS[currentSongIdx].file;
-  document.getElementById("musicLabel").textContent=SONGS[currentSongIdx].name;
+  document.getElementById("musicNow").textContent="周杰伦 · "+SONGS[currentSongIdx].name;
   document.getElementById("musicNow").textContent="周杰伦 · "+SONGS[currentSongIdx].name;
   document.getElementById("musicBarFill").style.width="0%";
   document.getElementById("musicTime").textContent="0:00";
@@ -194,14 +194,14 @@ function loadSong(i){
 
 function toggleMusic(){
   musicExpanded=!musicExpanded;
-  document.getElementById("musicPanel").classList.toggle("open",musicExpanded);
+  document.getElementById("musicPopup").classList.toggle("open",musicExpanded);
   if(musicExpanded&&!audio.src){loadSong(currentSongIdx)}
 }
 
 function togglePlay(){
   if(!audio.src)loadSong(currentSongIdx);
-  if(isPlaying){audio.pause();isPlaying=false;document.getElementById("playBtn").textContent="▶"}
-  else{audio.play();isPlaying=true;document.getElementById("playBtn").textContent="⏸"}
+  if(isPlaying){audio.pause();isPlaying=false;document.getElementById("playBtn").textContent="▶";document.getElementById("musicFab").classList.remove("playing")}
+  else{audio.play();isPlaying=true;document.getElementById("playBtn").textContent="⏸";document.getElementById("musicFab").classList.add("playing")}
 }
 
 function prevSong(){loadSong(currentSongIdx-1);if(isPlaying)audio.play()}
@@ -235,8 +235,8 @@ document.addEventListener("click",function(){
     loadSong(currentSongIdx);
     audio.play().then(function(){
       isPlaying=true;
-      document.getElementById("playBtn").textContent="⏸";
-      document.getElementById("musicLabel").textContent=SONGS[currentSongIdx].name;
+      document.getElementById("playBtn").textContent="⏸";document.getElementById("musicFab").classList.add("playing");
+      document.getElementById("musicNow").textContent="周杰伦 · "+SONGS[currentSongIdx].name;
     }).catch(function(){});
   }
 },{once:true});
