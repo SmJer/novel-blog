@@ -101,6 +101,29 @@
 </div>
 
 <div class="bt" id="btt" onclick="window.scrollTo({top:0})">↑</div>
+<div class="music-bar" id="musicBar">
+  <div class="music-toggle" id="musicToggle" onclick="toggleMusic()">
+    <span class="music-icon">♪</span>
+    <span class="music-label" id="musicLabel">点击播放</span>
+  </div>
+  <div class="music-panel" id="musicPanel">
+    <div class="music-now" id="musicNow">周杰伦 · 随机播放</div>
+    <div class="music-controls">
+      <button onclick="prevSong()">⏮</button>
+      <button onclick="togglePlay()" id="playBtn">▶</button>
+      <button onclick="nextSong()">⏭</button>
+    </div>
+    <div class="music-progress" id="musicProgress" onclick="seekMusic(event)">
+      <div class="music-bar-fill" id="musicBarFill"></div>
+    </div>
+    <div class="music-time"><span id="musicTime">0:00</span> / <span id="musicDuration">0:00</span></div>
+    <div class="music-vol">
+      <span>🔊</span>
+      <input type="range" min="0" max="100" value="30" id="volSlider" oninput="setVolume(this.value)">
+    </div>
+  </div>
+</div>
+<audio id="bgMusic" preload="auto"></audio>
 <script src="data/chapters.js?v=47m"></script>
 <script src="js/app.js?v=47m"></script>
 </body>
